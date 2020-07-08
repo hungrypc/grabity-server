@@ -48,27 +48,14 @@ async function getArticleData(id) {
   return articleData
 }
 
-async function getMeta(url) {
-  if (url) {
-    const metaData = await grabity.grabIt(url)
-    return metaData
-  } else {
-    return
-  }
-}
-
 async function getData() {
   const listOfIds = await getAllArticles()
   console.log(listOfIds)
   for (const id of listOfIds) {
     articles.articlesData[id] = await getArticleData(id)
-    // articles[id].meta = await getMeta(articles[id].url)
-    // console.log(articles[id])
   }
   articles.totalPages = Math.floor(listOfIds.length / 30)
   console.log('done')
-  console.log(articles)
-  console.log(articles.totalPages)
 }
 
 getData()
@@ -97,7 +84,6 @@ router.post('/meta', async (req, res) => {
 router.post('/articles', (req, res) => {
   const query = req.body.query
   const page = req.body.page
-  console.log(page)
 
   const filtered = Object.values(articles.articlesData)
   if (query) {
@@ -105,13 +91,12 @@ router.post('/articles', (req, res) => {
   }
   
   if (page === 1) {
-    filtered = articlesArr.slice(0, 30)
+    filtered = filtered.slice(0, 30)
   } else if (page > 1 && page < articles.totalPages) {
-    filtered = articlesArr.slice((page-1)*30, page*30)
+    filtered = filtered.slice((page-1)*30, page*30)
   } else {
-    filtered = articlesArr
+    filtered = filtered
   }
-
 
   res.send(filtered)
 })
