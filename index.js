@@ -59,7 +59,7 @@ async function getData() {
 }
 
 getData()
-setInterval(async () => {
+setInterval(() => {
   getData()
 }, 600000)
 
