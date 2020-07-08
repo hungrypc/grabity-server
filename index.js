@@ -85,10 +85,11 @@ router.post('/articles', (req, res) => {
   const query = req.body.query
   const page = req.body.page
 
-  const filtered = Object.values(articles.articlesData)
+  let filtered = Object.values(articles.articlesData)
   if (query) {
     filtered = filtered.filter(article => article.title.toLowerCase().includes(query))
   }
+  console.log(filtered)
   
   if (page === 1) {
     filtered = filtered.slice(0, 30)
