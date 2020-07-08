@@ -56,6 +56,7 @@ async function getData() {
   }
   articles.totalPages = Math.floor(listOfIds.length / 30)
   console.log('done')
+  return 
 }
 
 getData()
