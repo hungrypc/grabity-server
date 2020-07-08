@@ -111,7 +111,7 @@ router.post('/articles', (req, res) => {
   }
 
   if (query) {
-    filtered = filtered.filter(article => article.title.includes(query))
+    filtered = filtered.filter(article => article.title.toLowerCase().includes(query))
   }
 
   res.send(filtered)
