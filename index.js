@@ -99,9 +99,11 @@ router.post('/articles', (req, res) => {
   const page = req.body.page
   console.log(page)
 
-  const articlesArr = Object.values(articles.articlesData)
-  console.log(articlesArr)
-  let filtered = []
+  const filtered = Object.values(articles.articlesData)
+  if (query) {
+    filtered = filtered.filter(article => article.title.toLowerCase().includes(query))
+  }
+  
   if (page === 1) {
     filtered = articlesArr.slice(0, 30)
   } else if (page > 1 && page < articles.totalPages) {
@@ -110,9 +112,6 @@ router.post('/articles', (req, res) => {
     filtered = articlesArr
   }
 
-  if (query) {
-    filtered = filtered.filter(article => article.title.toLowerCase().includes(query))
-  }
 
   res.send(filtered)
 })
