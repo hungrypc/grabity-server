@@ -101,15 +101,7 @@ router.post('/articles', (req, res) => {
   }
   console.log(filtered)
 
-  if (page === 1) {
-    filtered = filtered.slice(0, 30)
-  } else if (page > 1 && page < articles.totalPages) {
-    filtered = filtered.slice((page - 1) * 30, page * 30)
-  } else {
-    filtered = filtered
-  }
-
-  res.send(filtered)
+  res.send(filtered.slice((page - 1) * 30, page * 30))
 })
 
 
