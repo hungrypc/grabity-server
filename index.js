@@ -1,3 +1,4 @@
+const http = require("http");
 const express = require('express')
 const grabity = require('grabity')
 const axios = require('axios')
@@ -49,6 +50,12 @@ async function getArticleData(id) {
 }
 
 async function getData() {
+  // reset articles data
+  articles = {
+    articlesData: {},
+    totalPages: 0
+  }
+
   const listOfIds = await getAllArticles()
   console.log(listOfIds)
   for (const id of listOfIds) {
@@ -56,13 +63,18 @@ async function getData() {
   }
   articles.totalPages = Math.floor(listOfIds.length / 30)
   console.log('done')
-  return 
+  return
 }
 
 getData()
 setInterval(() => {
   getData()
-}, 600000)
+}, 300000)
+
+// prevent heroku server from sleeping
+setInterval(function () {
+  http.get("http://shielded-lake-75197.herokuapp.com");
+}, 300000);
 
 
 async function getMetaData(url) {
@@ -91,11 +103,11 @@ router.post('/articles', (req, res) => {
     filtered = filtered.filter(article => article.title.toLowerCase().includes(query))
   }
   console.log(filtered)
-  
+
   if (page === 1) {
     filtered = filtered.slice(0, 30)
   } else if (page > 1 && page < articles.totalPages) {
-    filtered = filtered.slice((page-1)*30, page*30)
+    filtered = filtered.slice((page - 1) * 30, page * 30)
   } else {
     filtered = filtered
   }
