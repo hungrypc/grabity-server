@@ -51,10 +51,7 @@ async function getArticleData(id) {
 
 async function getData() {
   // reset articles data
-  articles = {
-    articlesData: {},
-    totalPages: 0
-  }
+  articles.articlesData = {}
 
   const listOfIds = await getAllArticles()
   console.log(listOfIds)
@@ -73,7 +70,7 @@ setInterval(() => {
 
 // prevent heroku server from sleeping
 setInterval(function () {
-  http.get("http://shielded-lake-75197.herokuapp.com");
+  http.get("http://grabity-server.herokuapp.com");
 }, 300000);
 
 
